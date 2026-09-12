@@ -33,6 +33,11 @@ TEST_CASE("store_gog services: GogCore refuses safely with no platform") {
   // must refuse just as safely, not crash on the parse.
   core.check_dlc_owned("not-a-number");
   CHECK(core.owned_dlc_ids().empty());
+  core.refresh_ownership("12345");
+  CHECK(core.owned_dlc_ids().empty());
+  // An empty id is a no-op here - Galaxy has no bulk ownership query.
+  core.refresh_ownership();
+  CHECK(core.owned_dlc_ids().empty());
 }
 
 TEST_CASE(
@@ -45,6 +50,8 @@ TEST_CASE(
   CHECK_FALSE(achievements.set_stat("enemies_killed", 5.0));
   CHECK(achievements.stat("enemies_killed") == 0.0);
   achievements.refresh_stats_and_achievements();
+  CHECK(achievements.achievement_ids().empty());
+  achievements.refresh();
   CHECK(achievements.achievement_ids().empty());
 }
 
@@ -70,5 +77,7 @@ TEST_CASE(
   CHECK(presence.friend_count() == 0u);
   CHECK(presence.friend_names().empty());
   presence.refresh_friends();
+  CHECK(presence.friend_names().empty());
+  presence.refresh();
   CHECK(presence.friend_names().empty());
 }

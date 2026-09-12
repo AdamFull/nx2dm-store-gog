@@ -53,6 +53,14 @@ public:
   /// one explicitly. Fires IApps::IsDlcOwned(), refreshing owned_dlc_ids().
   void check_dlc_owned(nx::string_view dlc_id);
 
+  /// Galaxy has no bulk ownership query - an empty @p dlc_id is a no-op
+  /// here, unlike every other backend's store::StoreCore::refresh_ownership()
+  /// override, which treats an empty id as "refresh everything".
+  void refresh_ownership(const nx::string_view dlc_id = {}) override {
+    if (!dlc_id.empty())
+      check_dlc_owned(dlc_id);
+  }
+
 private:
   class DlcOwnedListener;
 
@@ -80,6 +88,13 @@ public:
   /// eventually-consistent shape store_egs's refresh_* methods already
   /// document.
   void refresh_stats_and_achievements();
+
+  /// Galaxy already queries every stat/achievement in one round trip -
+  /// @p stat_ids is ignored, same as store::StoreAchievements::refresh()
+  /// documents for any bulk-capable backend.
+  void refresh(const nx::vector<nx::string> & = {}) override {
+    refresh_stats_and_achievements();
+  }
 
 private:
   class StatsRetrieveListener;
@@ -129,6 +144,8 @@ public:
   /// friend_names() report anything real, the same eventually-consistent
   /// shape refresh_stats_and_achievements() above documents.
   void refresh_friends();
+
+  void refresh() override { refresh_friends(); }
 
 private:
   class FriendListListener;
