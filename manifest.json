@@ -1,0 +1,11 @@
+{
+  "name": "store_gog",
+  "displayName": "GOG Galaxy",
+  "version": "0.1.0",
+  "author": "AdamFull",
+  "description": "GOG Galaxy storefront backend.",
+  "license": null,
+  "created": "2026-09-12",
+  "repository": null,
+  "revision": null
+}

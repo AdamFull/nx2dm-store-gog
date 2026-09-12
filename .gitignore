@@ -1,0 +1,4 @@
+# The GOG Galaxy SDK: a licence-gated GOG developer download, no fetchable
+# URL - it can never be committed. Developer-provided locally; see
+# NxStoreGog.cmake.
+/third_party/GogSdk/
