@@ -16,7 +16,7 @@ endif ()
 # on a platform that was never going to build this module anyway.
 _nx_current_platform(_nx_store_gog_here)
 if (NOT _nx_store_gog_here STREQUAL "windows")
-    message(STATUS "nx2d: module 'store_gog' skipped on ${_nx_store_gog_here}")
+    _nx_module_skip_platform(store_gog "${_nx_store_gog_here}")
     return()
 endif ()
 
