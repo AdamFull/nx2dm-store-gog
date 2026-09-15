@@ -1,6 +1,6 @@
 #include "framework/nxtest.h"
 
-#include "core/app/module_system/module.h"
+#include "app/module_system/module.h"
 
 TEST_CASE("store_gog: the module is in the build's registry") {
   bool found = false;
