@@ -4,6 +4,10 @@
 
 #include <optional>
 
+namespace nx::vfs {
+class AsyncIoService;
+}
+
 namespace nxm::store_gog {
 
 /// VFS path StoreGogModule::on_attach() checks automatically. A project
@@ -29,6 +33,6 @@ struct ServiceConfig {
 /// missing a required field - callers should treat both the same way, as
 /// "nothing to auto-configure with".
 [[nodiscard]] std::optional<ServiceConfig>
-load_project_config(nx::string_view path = kDefaultConfigPath);
-
+load_project_config(nx::vfs::AsyncIoService &io,
+                    nx::string_view path = kDefaultConfigPath);
 }

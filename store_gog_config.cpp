@@ -1,7 +1,7 @@
 #include "store_gog/store_gog_config.h"
 
 #include "core/foundation/diagnostics/log.h"
-#include "core/foundation/serialization/ini.h"
+#include "core/foundation/serialization/async_documents.h"
 
 namespace nxm::store_gog {
 namespace {
@@ -22,9 +22,10 @@ require(const nx::ini::Document &doc, const nx::string_view key,
 
 } // namespace
 
-std::optional<ServiceConfig> load_project_config(const nx::string_view path) {
+std::optional<ServiceConfig> load_project_config(nx::vfs::AsyncIoService &io,
+                                                 const nx::string_view path) {
   // Its cooked form where there is one, as a Shipping build has.
-  const auto parsed = nx::ini::load(path);
+  const auto parsed = nx::ini::load(io, path).get();
   if (!parsed) {
     const nx::ini::LoadError &error = parsed.error();
     if (error.kind == nx::ini::LoadErrorKind::Invalid)
@@ -48,5 +49,4 @@ std::optional<ServiceConfig> load_project_config(const nx::string_view path) {
   config.client_secret = *client_secret;
   return config;
 }
-
 }

@@ -74,7 +74,8 @@ public:
     // The SDK expects its pump on one thread, the one it was set up on.
     ctx.schedule().pin_to_main_thread(PUMP_SYSTEM);
 
-    if (const std::optional<ServiceConfig> config = load_project_config();
+    if (const std::optional<ServiceConfig> config =
+            load_project_config(*ctx.async_io());
         config.has_value()) {
       PlatformConfig platform_config;
       platform_config.client_id = config->client_id;
